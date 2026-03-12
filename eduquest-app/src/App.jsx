@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/AuthContext'
 import { ThemeProvider } from './context/ThemeContext'
 import ProtectedRoute from './components/ProtectedRoute'
+import AdminRoute from './components/AdminRoute'
 
 import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
@@ -14,6 +15,7 @@ import ChallengeDetailPage from './pages/ChallengeDetailPage'
 import ProgressPage from './pages/ProgressPage'
 import LeaderboardPage from './pages/LeaderboardPage'
 import ProfilePage from './pages/ProfilePage'
+import AdminDashboardPage from './pages/AdminDashboardPage'
 
 export default function App() {
   return (
@@ -42,6 +44,7 @@ export default function App() {
             <Route path="/progress" element={<ProtectedRoute><ProgressPage /></ProtectedRoute>} />
             <Route path="/leaderboard" element={<ProtectedRoute><LeaderboardPage /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+            <Route path="/admin" element={<AdminRoute><AdminDashboardPage /></AdminRoute>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>

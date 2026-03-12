@@ -1,6 +1,6 @@
-// src/components/MobileSidebar.jsx
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Sword, TrendingUp, Trophy, User, X } from 'lucide-react'
+import { LayoutDashboard, Sword, TrendingUp, Trophy, User, X, ShieldAlert } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
 
 const navItems = [
   { to: '/dashboard',   icon: LayoutDashboard, label: 'Dashboard' },
@@ -11,6 +11,7 @@ const navItems = [
 ]
 
 export default function MobileSidebar({ open, onClose }) {
+  const { profile } = useAuth()
   if (!open) return null
 
   return (
@@ -55,6 +56,26 @@ export default function MobileSidebar({ open, onClose }) {
             )}
           </NavLink>
         ))}
+
+        {profile?.is_admin && (
+          <NavLink to="/admin" style={{ textDecoration: 'none', marginTop: 'auto' }} onClick={onClose}>
+            {({ isActive }) => (
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 14,
+                padding: '13px 16px', borderRadius: 12,
+                background: isActive ? 'rgba(239,68,68,0.15)' : 'transparent',
+                border: isActive ? '1px solid rgba(239,68,68,0.3)' : '1px solid transparent',
+                color: isActive ? '#ef4444' : 'var(--text-secondary)',
+                fontWeight: isActive ? 600 : 400,
+                fontSize: '1rem',
+                transition: 'all 0.2s ease',
+              }}>
+                <ShieldAlert size={20} />
+                Admin Panel
+              </div>
+            )}
+          </NavLink>
+        )}
       </div>
       <style>{`@keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }`}</style>
     </>

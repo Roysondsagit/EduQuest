@@ -1,6 +1,6 @@
-// src/components/Sidebar.jsx
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Sword, TrendingUp, Trophy, User, BookOpen } from 'lucide-react'
+import { LayoutDashboard, Sword, TrendingUp, Trophy, User, ShieldAlert } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
 
 const navItems = [
   { to: '/dashboard',   icon: LayoutDashboard, label: 'Dashboard' },
@@ -11,6 +11,7 @@ const navItems = [
 ]
 
 export default function Sidebar() {
+  const { profile } = useAuth()
   return (
     <aside style={{
       position: 'fixed', top: 64, left: 0, bottom: 0,
@@ -46,6 +47,31 @@ export default function Sidebar() {
           )}
         </NavLink>
       ))}
+
+      {profile?.is_admin && (
+        <NavLink to="/admin" style={{ textDecoration: 'none', marginTop: 12 }}>
+          {({ isActive }) => (
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 12,
+              padding: '11px 14px', borderRadius: 12,
+              background: isActive ? 'rgba(239,68,68,0.15)' : 'transparent',
+              border: isActive ? '1px solid rgba(239,68,68,0.3)' : '1px solid transparent',
+              color: isActive ? '#ef4444' : 'var(--text-secondary)',
+              fontWeight: isActive ? 600 : 400,
+              fontSize: '0.9rem',
+              transition: 'all 0.2s ease',
+              cursor: 'pointer',
+              boxShadow: isActive ? 'var(--glow)' : 'none'
+            }}
+            onMouseEnter={e => { if (!isActive) { e.currentTarget.style.background='rgba(255,255,255,0.04)'; e.currentTarget.style.color='var(--text-primary)' } }}
+            onMouseLeave={e => { if (!isActive) { e.currentTarget.style.background='transparent'; e.currentTarget.style.color='var(--text-secondary)' } }}
+            >
+              <ShieldAlert size={18} />
+              Admin Panel
+            </div>
+          )}
+        </NavLink>
+      )}
 
       <div style={{ marginTop: 'auto', padding: '12px 14px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)' }}>
         <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
