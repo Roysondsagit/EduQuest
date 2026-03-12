@@ -6,6 +6,17 @@ import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import { Zap, Mail, Lock, User, UserPlus } from 'lucide-react'
 
+const Field = ({ id, label, icon: Icon, type, placeholder, value, onChange }) => (
+  <div>
+    <label style={{ display:'block', marginBottom:6, fontSize:'0.85rem', fontWeight:600, color:'var(--text-secondary)' }}>{label}</label>
+    <div style={{ position:'relative' }}>
+      <Icon size={16} style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', color:'var(--text-secondary)', pointerEvents:'none' }} />
+      <input id={id} type={type} className="input-field" style={{ paddingLeft:40 }} placeholder={placeholder}
+        value={value} onChange={onChange} required />
+    </div>
+  </div>
+)
+
 export default function SignupPage() {
   const { signUp } = useAuth()
   const navigate = useNavigate()
@@ -39,17 +50,6 @@ export default function SignupPage() {
     navigate('/dashboard')
   }
 
-  const Field = ({ id, label, icon: Icon, type, placeholder, field }) => (
-    <div>
-      <label style={{ display:'block', marginBottom:6, fontSize:'0.85rem', fontWeight:600, color:'var(--text-secondary)' }}>{label}</label>
-      <div style={{ position:'relative' }}>
-        <Icon size={16} style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', color:'var(--text-secondary)', pointerEvents:'none' }} />
-        <input id={id} type={type} className="input-field" style={{ paddingLeft:40 }} placeholder={placeholder}
-          value={form[field]} onChange={e => setForm(f => ({ ...f, [field]: e.target.value }))} required />
-      </div>
-    </div>
-  )
-
   return (
     <div style={{ minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'var(--bg-base)', padding:24 }}>
       <div style={{ position:'fixed', top:'10%', right:'10%', width:350, height:350, borderRadius:'50%', background:'rgba(99,102,241,0.1)', filter:'blur(100px)' }} />
@@ -77,10 +77,10 @@ export default function SignupPage() {
           )}
 
           <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:16 }}>
-            <Field id="signup-email"    label="Email"            icon={Mail} type="email"    placeholder="you@example.com" field="email" />
-            <Field id="signup-username" label="Username"         icon={User} type="text"    placeholder="CoolLearner42"   field="username" />
-            <Field id="signup-password" label="Password"         icon={Lock} type="password" placeholder="Min 8 chars, 1 uppercase, 1 number" field="password" />
-            <Field id="signup-confirm"  label="Confirm Password" icon={Lock} type="password" placeholder="Repeat password" field="confirm" />
+            <Field id="signup-email"    label="Email"            icon={Mail} type="email"    placeholder="you@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+            <Field id="signup-username" label="Username"         icon={User} type="text"    placeholder="CoolLearner42"   value={form.username} onChange={e => setForm(f => ({ ...f, username: e.target.value }))} />
+            <Field id="signup-password" label="Password"         icon={Lock} type="password" placeholder="Min 8 chars, 1 uppercase, 1 number" value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} />
+            <Field id="signup-confirm"  label="Confirm Password" icon={Lock} type="password" placeholder="Repeat password" value={form.confirm} onChange={e => setForm(f => ({ ...f, confirm: e.target.value }))} />
 
             {/* Password requirements */}
             <div style={{ fontSize:'0.75rem', color:'var(--text-secondary)', lineHeight:1.8 }}>
